@@ -1,0 +1,839 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="pairparkModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="car_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="cars">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plate" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="color" Type="varchar" MaxLength="45" />
+          <Property Name="brand" Type="varchar" MaxLength="45" />
+          <Property Name="cartype_id" Type="int" Nullable="false" />
+          <Property Name="driver_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="drivers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nickname" Type="varchar" MaxLength="10" />
+          <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="active" Type="tinyint" />
+          <Property Name="inactive_until" Type="date" />
+          <Property Name="fault_points" Type="int" />
+          <Property Name="deleted" Type="tinyint" />
+          <Property Name="tes" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="handshake_statuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="handshakes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="request_id" Type="int" Nullable="false" />
+          <Property Name="offer_id" Type="int" Nullable="false" />
+          <Property Name="rating_for_requestor" Type="tinyint" />
+          <Property Name="comments_for_requestor" Type="text" />
+          <Property Name="rating_for_offeror" Type="tinyint" />
+          <Property Name="comments_for_offeror" Type="text" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="history">
+          <Key>
+            <PropertyRef Name="tabname" />
+            <PropertyRef Name="colname" />
+            <PropertyRef Name="timestamp" />
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="tabname" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="colname" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="rowid" Type="int" Nullable="false" />
+          <Property Name="old_value" Type="varchar" MaxLength="255" />
+          <Property Name="new_value" Type="varchar" MaxLength="255" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="notifications">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="driver_id" Type="int" Nullable="false" />
+          <Property Name="notify_text" Type="text" Nullable="false" />
+          <Property Name="sent" Type="binary" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="offer_slots">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="longitude" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="latitude" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="range" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="offer_datetime_start" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="offer_datetime_end" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="car_id" Type="int" Nullable="false" />
+          <Property Name="active" Type="binary" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="parameters">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="proposed_handshakes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="request_id" Type="int" Nullable="false" />
+          <Property Name="offer_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="request_slots">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="longitude" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="latitude" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="range" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="request_datetime_start" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="request_datetime_end" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="car_id" Type="int" Nullable="false" />
+          <Property Name="active" Type="binary" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tracking">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="driver_id" Type="int" Nullable="false" />
+          <Property Name="longitude" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="latitude" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="track_timestamp" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <Association Name="cars_cartype_fk">
+          <End Role="car_types" Type="Self.car_types" Multiplicity="1" />
+          <End Role="cars" Type="Self.cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="car_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cars">
+              <PropertyRef Name="cartype_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cars_driver_fk">
+          <End Role="drivers" Type="Self.drivers" Multiplicity="1" />
+          <End Role="cars" Type="Self.cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="drivers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cars">
+              <PropertyRef Name="driver_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hsh_off_id">
+          <End Role="offer_slots" Type="Self.offer_slots" Multiplicity="1" />
+          <End Role="handshakes" Type="Self.handshakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offer_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="handshakes">
+              <PropertyRef Name="offer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hsh_req_id">
+          <End Role="request_slots" Type="Self.request_slots" Multiplicity="1" />
+          <End Role="handshakes" Type="Self.handshakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="request_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="handshakes">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hsh_status_id">
+          <End Role="handshake_statuses" Type="Self.handshake_statuses" Multiplicity="1" />
+          <End Role="handshakes" Type="Self.handshakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handshake_statuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="handshakes">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notif_driver_id_fk">
+          <End Role="drivers" Type="Self.drivers" Multiplicity="1" />
+          <End Role="notifications" Type="Self.notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="drivers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notifications">
+              <PropertyRef Name="driver_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="offer_slots_car_fk">
+          <End Role="cars" Type="Self.cars" Multiplicity="1" />
+          <End Role="offer_slots" Type="Self.offer_slots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="offer_slots">
+              <PropertyRef Name="car_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="proph_offer_fk">
+          <End Role="offer_slots" Type="Self.offer_slots" Multiplicity="1" />
+          <End Role="proposed_handshakes" Type="Self.proposed_handshakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offer_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proposed_handshakes">
+              <PropertyRef Name="offer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="proph_req_fk">
+          <End Role="request_slots" Type="Self.request_slots" Multiplicity="1" />
+          <End Role="proposed_handshakes" Type="Self.proposed_handshakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="request_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proposed_handshakes">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="req_slots_car_fk">
+          <End Role="cars" Type="Self.cars" Multiplicity="1" />
+          <End Role="request_slots" Type="Self.request_slots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="request_slots">
+              <PropertyRef Name="car_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="track_driver_id">
+          <End Role="drivers" Type="Self.drivers" Multiplicity="1" />
+          <End Role="tracking" Type="Self.tracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="drivers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tracking">
+              <PropertyRef Name="driver_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="pairparkModelStoreContainer">
+          <EntitySet Name="car_types" EntityType="Self.car_types" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="cars" EntityType="Self.cars" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="drivers" EntityType="Self.drivers" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="handshake_statuses" EntityType="Self.handshake_statuses" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="handshakes" EntityType="Self.handshakes" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="history" EntityType="Self.history" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="notifications" EntityType="Self.notifications" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="offer_slots" EntityType="Self.offer_slots" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="parameters" EntityType="Self.parameters" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="proposed_handshakes" EntityType="Self.proposed_handshakes" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="request_slots" EntityType="Self.request_slots" Schema="pairpark" store:Type="Tables" />
+          <EntitySet Name="tracking" EntityType="Self.tracking" Schema="pairpark" store:Type="Tables" />
+          <AssociationSet Name="cars_cartype_fk" Association="Self.cars_cartype_fk">
+            <End Role="car_types" EntitySet="car_types" />
+            <End Role="cars" EntitySet="cars" />
+          </AssociationSet>
+          <AssociationSet Name="cars_driver_fk" Association="Self.cars_driver_fk">
+            <End Role="drivers" EntitySet="drivers" />
+            <End Role="cars" EntitySet="cars" />
+          </AssociationSet>
+          <AssociationSet Name="hsh_off_id" Association="Self.hsh_off_id">
+            <End Role="offer_slots" EntitySet="offer_slots" />
+            <End Role="handshakes" EntitySet="handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="hsh_req_id" Association="Self.hsh_req_id">
+            <End Role="request_slots" EntitySet="request_slots" />
+            <End Role="handshakes" EntitySet="handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="hsh_status_id" Association="Self.hsh_status_id">
+            <End Role="handshake_statuses" EntitySet="handshake_statuses" />
+            <End Role="handshakes" EntitySet="handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="notif_driver_id_fk" Association="Self.notif_driver_id_fk">
+            <End Role="drivers" EntitySet="drivers" />
+            <End Role="notifications" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="offer_slots_car_fk" Association="Self.offer_slots_car_fk">
+            <End Role="cars" EntitySet="cars" />
+            <End Role="offer_slots" EntitySet="offer_slots" />
+          </AssociationSet>
+          <AssociationSet Name="proph_offer_fk" Association="Self.proph_offer_fk">
+            <End Role="offer_slots" EntitySet="offer_slots" />
+            <End Role="proposed_handshakes" EntitySet="proposed_handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="proph_req_fk" Association="Self.proph_req_fk">
+            <End Role="request_slots" EntitySet="request_slots" />
+            <End Role="proposed_handshakes" EntitySet="proposed_handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="req_slots_car_fk" Association="Self.req_slots_car_fk">
+            <End Role="cars" EntitySet="cars" />
+            <End Role="request_slots" EntitySet="request_slots" />
+          </AssociationSet>
+          <AssociationSet Name="track_driver_id" Association="Self.track_driver_id">
+            <End Role="drivers" EntitySet="drivers" />
+            <End Role="tracking" EntitySet="tracking" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="pairparkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="car_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cars" Relationship="Self.cars_cartype_fk" FromRole="car_types" ToRole="cars" />
+        </EntityType>
+        <EntityType Name="car">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plate" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="color" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="brand" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="cartype_id" Type="Int32" Nullable="false" />
+          <Property Name="driver_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="car_types" Relationship="Self.cars_cartype_fk" FromRole="cars" ToRole="car_types" />
+          <NavigationProperty Name="offer_slots" Relationship="Self.offer_slots_car_fk" FromRole="cars" ToRole="offer_slots" />
+          <NavigationProperty Name="request_slots" Relationship="Self.req_slots_car_fk" FromRole="cars" ToRole="request_slots" />
+          <NavigationProperty Name="driver" Relationship="pairparkModel.cars_driver_fk" FromRole="car" ToRole="driver" />
+        </EntityType>
+        <EntityType Name="handshake_statuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="handshakes" Relationship="Self.hsh_status_id" FromRole="handshake_statuses" ToRole="handshakes" />
+        </EntityType>
+        <EntityType Name="handshake">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="request_id" Type="Int32" Nullable="false" />
+          <Property Name="offer_id" Type="Int32" Nullable="false" />
+          <Property Name="rating_for_requestor" Type="SByte" />
+          <Property Name="comments_for_requestor" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="rating_for_offeror" Type="SByte" />
+          <Property Name="comments_for_offeror" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="handshake_statuses" Relationship="Self.hsh_status_id" FromRole="handshakes" ToRole="handshake_statuses" />
+          <NavigationProperty Name="offer_slots" Relationship="Self.hsh_off_id" FromRole="handshakes" ToRole="offer_slots" />
+          <NavigationProperty Name="request_slots" Relationship="Self.hsh_req_id" FromRole="handshakes" ToRole="request_slots" />
+        </EntityType>
+        <EntityType Name="history">
+          <Key>
+            <PropertyRef Name="tabname" />
+            <PropertyRef Name="colname" />
+            <PropertyRef Name="timestamp" />
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="tabname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="colname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" />
+          <Property Name="rowid" Type="Int32" Nullable="false" />
+          <Property Name="old_value" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="new_value" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="driver_id" Type="Int32" Nullable="false" />
+          <Property Name="notify_text" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sent" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="driver" Relationship="pairparkModel.notif_driver_id_fk" FromRole="notification" ToRole="driver" />
+        </EntityType>
+        <EntityType Name="offer_slots">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="longitude" Type="Decimal" Nullable="false" />
+          <Property Name="latitude" Type="Decimal" Nullable="false" />
+          <Property Name="range" Type="Decimal" Nullable="false" />
+          <Property Name="offer_datetime_start" Type="DateTime" Nullable="false" />
+          <Property Name="offer_datetime_end" Type="DateTime" Nullable="false" />
+          <Property Name="car_id" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="car" Relationship="Self.offer_slots_car_fk" FromRole="offer_slots" ToRole="cars" />
+          <NavigationProperty Name="handshakes" Relationship="Self.hsh_off_id" FromRole="offer_slots" ToRole="handshakes" />
+          <NavigationProperty Name="proposed_handshakes" Relationship="Self.proph_offer_fk" FromRole="offer_slots" ToRole="proposed_handshakes" />
+        </EntityType>
+        <EntityType Name="parameter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="value" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="proposed_handshakes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="request_id" Type="Int32" Nullable="false" />
+          <Property Name="offer_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="offer_slots" Relationship="Self.proph_offer_fk" FromRole="proposed_handshakes" ToRole="offer_slots" />
+          <NavigationProperty Name="request_slots" Relationship="Self.proph_req_fk" FromRole="proposed_handshakes" ToRole="request_slots" />
+        </EntityType>
+        <EntityType Name="request_slots">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="longitude" Type="Decimal" Nullable="false" />
+          <Property Name="latitude" Type="Decimal" Nullable="false" />
+          <Property Name="range" Type="Decimal" Nullable="false" />
+          <Property Name="request_datetime_start" Type="DateTime" Nullable="false" />
+          <Property Name="request_datetime_end" Type="DateTime" Nullable="false" />
+          <Property Name="car_id" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="car" Relationship="Self.req_slots_car_fk" FromRole="request_slots" ToRole="cars" />
+          <NavigationProperty Name="handshakes" Relationship="Self.hsh_req_id" FromRole="request_slots" ToRole="handshakes" />
+          <NavigationProperty Name="proposed_handshakes" Relationship="Self.proph_req_fk" FromRole="request_slots" ToRole="proposed_handshakes" />
+        </EntityType>
+        <EntityType Name="tracking">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="driver_id" Type="Int32" Nullable="false" />
+          <Property Name="longitude" Type="Decimal" Nullable="false" />
+          <Property Name="latitude" Type="Decimal" Nullable="false" />
+          <Property Name="track_timestamp" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="driver" Relationship="pairparkModel.track_driver_id" FromRole="tracking" ToRole="driver" />
+        </EntityType>
+        <Association Name="cars_cartype_fk">
+          <End Role="car_types" Type="Self.car_types" Multiplicity="1" />
+          <End Role="cars" Type="Self.car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="car_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cars">
+              <PropertyRef Name="cartype_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="offer_slots_car_fk">
+          <End Role="cars" Type="Self.car" Multiplicity="1" />
+          <End Role="offer_slots" Type="Self.offer_slots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="offer_slots">
+              <PropertyRef Name="car_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="req_slots_car_fk">
+          <End Role="cars" Type="Self.car" Multiplicity="1" />
+          <End Role="request_slots" Type="Self.request_slots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="request_slots">
+              <PropertyRef Name="car_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hsh_status_id">
+          <End Role="handshake_statuses" Type="Self.handshake_statuses" Multiplicity="1" />
+          <End Role="handshakes" Type="Self.handshake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handshake_statuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="handshakes">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hsh_off_id">
+          <End Role="offer_slots" Type="Self.offer_slots" Multiplicity="1" />
+          <End Role="handshakes" Type="Self.handshake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offer_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="handshakes">
+              <PropertyRef Name="offer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hsh_req_id">
+          <End Role="request_slots" Type="Self.request_slots" Multiplicity="1" />
+          <End Role="handshakes" Type="Self.handshake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="request_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="handshakes">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="proph_offer_fk">
+          <End Role="offer_slots" Type="Self.offer_slots" Multiplicity="1" />
+          <End Role="proposed_handshakes" Type="Self.proposed_handshakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offer_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proposed_handshakes">
+              <PropertyRef Name="offer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="proph_req_fk">
+          <End Role="request_slots" Type="Self.request_slots" Multiplicity="1" />
+          <End Role="proposed_handshakes" Type="Self.proposed_handshakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="request_slots">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proposed_handshakes">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="pairparkEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="car_types" EntityType="Self.car_types" />
+          <EntitySet Name="cars" EntityType="Self.car" />
+          <EntitySet Name="handshake_statuses" EntityType="Self.handshake_statuses" />
+          <EntitySet Name="handshakes" EntityType="Self.handshake" />
+          <EntitySet Name="histories" EntityType="Self.history" />
+          <EntitySet Name="notifications" EntityType="Self.notification" />
+          <EntitySet Name="offer_slots" EntityType="Self.offer_slots" />
+          <EntitySet Name="parameters" EntityType="Self.parameter" />
+          <EntitySet Name="proposed_handshakes" EntityType="Self.proposed_handshakes" />
+          <EntitySet Name="request_slots" EntityType="Self.request_slots" />
+          <EntitySet Name="trackings" EntityType="Self.tracking" />
+          <AssociationSet Name="cars_cartype_fk" Association="Self.cars_cartype_fk">
+            <End Role="car_types" EntitySet="car_types" />
+            <End Role="cars" EntitySet="cars" />
+          </AssociationSet>
+          <AssociationSet Name="offer_slots_car_fk" Association="Self.offer_slots_car_fk">
+            <End Role="cars" EntitySet="cars" />
+            <End Role="offer_slots" EntitySet="offer_slots" />
+          </AssociationSet>
+          <AssociationSet Name="req_slots_car_fk" Association="Self.req_slots_car_fk">
+            <End Role="cars" EntitySet="cars" />
+            <End Role="request_slots" EntitySet="request_slots" />
+          </AssociationSet>
+          <AssociationSet Name="hsh_status_id" Association="Self.hsh_status_id">
+            <End Role="handshake_statuses" EntitySet="handshake_statuses" />
+            <End Role="handshakes" EntitySet="handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="hsh_off_id" Association="Self.hsh_off_id">
+            <End Role="offer_slots" EntitySet="offer_slots" />
+            <End Role="handshakes" EntitySet="handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="hsh_req_id" Association="Self.hsh_req_id">
+            <End Role="request_slots" EntitySet="request_slots" />
+            <End Role="handshakes" EntitySet="handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="proph_offer_fk" Association="Self.proph_offer_fk">
+            <End Role="offer_slots" EntitySet="offer_slots" />
+            <End Role="proposed_handshakes" EntitySet="proposed_handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="proph_req_fk" Association="Self.proph_req_fk">
+            <End Role="request_slots" EntitySet="request_slots" />
+            <End Role="proposed_handshakes" EntitySet="proposed_handshakes" />
+          </AssociationSet>
+          <EntitySet Name="drivers" EntityType="pairparkModel.driver" />
+          <AssociationSet Name="cars_driver_fk" Association="pairparkModel.cars_driver_fk">
+            <End Role="driver" EntitySet="drivers" />
+            <End Role="car" EntitySet="cars" />
+          </AssociationSet>
+          <AssociationSet Name="notif_driver_id_fk" Association="pairparkModel.notif_driver_id_fk">
+            <End Role="driver" EntitySet="drivers" />
+            <End Role="notification" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="track_driver_id" Association="pairparkModel.track_driver_id">
+            <End Role="driver" EntitySet="drivers" />
+            <End Role="tracking" EntitySet="trackings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="driver">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nickname" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="SByte" />
+          <Property Name="inactive_until" Type="DateTime" />
+          <Property Name="fault_points" Type="Int32" />
+          <Property Name="deleted" Type="SByte" />
+          <NavigationProperty Name="cars" Relationship="pairparkModel.cars_driver_fk" FromRole="driver" ToRole="car" />
+          <NavigationProperty Name="notifications" Relationship="pairparkModel.notif_driver_id_fk" FromRole="driver" ToRole="notification" />
+          <NavigationProperty Name="trackings" Relationship="pairparkModel.track_driver_id" FromRole="driver" ToRole="tracking" />
+          <Property Name="tes" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="cars_driver_fk">
+          <End Type="pairparkModel.driver" Role="driver" Multiplicity="1" />
+          <End Type="pairparkModel.car" Role="car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="driver">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="car">
+              <PropertyRef Name="driver_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notif_driver_id_fk">
+          <End Type="pairparkModel.driver" Role="driver" Multiplicity="1" />
+          <End Type="pairparkModel.notification" Role="notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="driver">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="driver_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="track_driver_id">
+          <End Type="pairparkModel.driver" Role="driver" Multiplicity="1" />
+          <End Type="pairparkModel.tracking" Role="tracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="driver">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tracking">
+              <PropertyRef Name="driver_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="pairparkModelStoreContainer" CdmEntityContainer="pairparkEntities">
+          <EntitySetMapping Name="car_types">
+            <EntityTypeMapping TypeName="pairparkModel.car_types">
+              <MappingFragment StoreEntitySet="car_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cars">
+            <EntityTypeMapping TypeName="pairparkModel.car">
+              <MappingFragment StoreEntitySet="cars">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="plate" ColumnName="plate" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="brand" ColumnName="brand" />
+                <ScalarProperty Name="cartype_id" ColumnName="cartype_id" />
+                <ScalarProperty Name="driver_id" ColumnName="driver_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="handshake_statuses">
+            <EntityTypeMapping TypeName="pairparkModel.handshake_statuses">
+              <MappingFragment StoreEntitySet="handshake_statuses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="handshakes">
+            <EntityTypeMapping TypeName="pairparkModel.handshake">
+              <MappingFragment StoreEntitySet="handshakes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="request_id" ColumnName="request_id" />
+                <ScalarProperty Name="offer_id" ColumnName="offer_id" />
+                <ScalarProperty Name="rating_for_requestor" ColumnName="rating_for_requestor" />
+                <ScalarProperty Name="comments_for_requestor" ColumnName="comments_for_requestor" />
+                <ScalarProperty Name="rating_for_offeror" ColumnName="rating_for_offeror" />
+                <ScalarProperty Name="comments_for_offeror" ColumnName="comments_for_offeror" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="histories">
+            <EntityTypeMapping TypeName="pairparkModel.history">
+              <MappingFragment StoreEntitySet="history">
+                <ScalarProperty Name="tabname" ColumnName="tabname" />
+                <ScalarProperty Name="colname" ColumnName="colname" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+                <ScalarProperty Name="old_value" ColumnName="old_value" />
+                <ScalarProperty Name="new_value" ColumnName="new_value" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notifications">
+            <EntityTypeMapping TypeName="pairparkModel.notification">
+              <MappingFragment StoreEntitySet="notifications">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="driver_id" ColumnName="driver_id" />
+                <ScalarProperty Name="notify_text" ColumnName="notify_text" />
+                <ScalarProperty Name="sent" ColumnName="sent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="offer_slots">
+            <EntityTypeMapping TypeName="pairparkModel.offer_slots">
+              <MappingFragment StoreEntitySet="offer_slots">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="range" ColumnName="range" />
+                <ScalarProperty Name="offer_datetime_start" ColumnName="offer_datetime_start" />
+                <ScalarProperty Name="offer_datetime_end" ColumnName="offer_datetime_end" />
+                <ScalarProperty Name="car_id" ColumnName="car_id" />
+                <ScalarProperty Name="active" ColumnName="active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="parameters">
+            <EntityTypeMapping TypeName="pairparkModel.parameter">
+              <MappingFragment StoreEntitySet="parameters">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proposed_handshakes">
+            <EntityTypeMapping TypeName="pairparkModel.proposed_handshakes">
+              <MappingFragment StoreEntitySet="proposed_handshakes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="request_id" ColumnName="request_id" />
+                <ScalarProperty Name="offer_id" ColumnName="offer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="request_slots">
+            <EntityTypeMapping TypeName="pairparkModel.request_slots">
+              <MappingFragment StoreEntitySet="request_slots">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="range" ColumnName="range" />
+                <ScalarProperty Name="request_datetime_start" ColumnName="request_datetime_start" />
+                <ScalarProperty Name="request_datetime_end" ColumnName="request_datetime_end" />
+                <ScalarProperty Name="car_id" ColumnName="car_id" />
+                <ScalarProperty Name="active" ColumnName="active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="trackings">
+            <EntityTypeMapping TypeName="pairparkModel.tracking">
+              <MappingFragment StoreEntitySet="tracking">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="driver_id" ColumnName="driver_id" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="track_timestamp" ColumnName="track_timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="drivers">
+            <EntityTypeMapping TypeName="pairparkModel.driver">
+              <MappingFragment StoreEntitySet="drivers">
+                <ScalarProperty Name="tes" ColumnName="tes" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="fault_points" ColumnName="fault_points" />
+                <ScalarProperty Name="inactive_until" ColumnName="inactive_until" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
